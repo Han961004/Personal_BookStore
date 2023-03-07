@@ -1,6 +1,11 @@
 import os
 import sys
 
+########
+import sql_server 
+########
+
+
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 
@@ -24,7 +29,7 @@ class WindowClass(QMainWindow, form_class):
         super().__init__()
         self.setupUi(self)
         
-    def book_search_btn_click(self):
+    def lobby_to_search(self):
         self.hide()                     # 메인윈도우 숨김
         self.second = secondwindow()    # 
         self.second.exec()              # 두번째 창을 닫을 때 까지 기다림
@@ -41,13 +46,55 @@ class secondwindow(QDialog,QWidget,form_secondwindow):
 
     def initUi(self):
         self.setupUi(self)
+        
+    def book_search(self):
+        # 검색어 입력받은 변수, 이걸로 sql 검색할 것
+        text = self.book_search_edit.text()
+        category = self.book_search_category.currentText()
 
-#    def btn_second_to_main(self):
-#        self.close()                    #클릭시 종료됨.
+        # 검색할 때 마다 테이블 초기화
+        self.tableWidget.setRowCount(0)
+        
+        # 콤보박스가 제목일 때
+        if(category == "제목"):
+            for i in sql_server.search_data_by_title(sql_server.dbconnect(), text):
+                row = self.tableWidget.rowCount()
+                self.tableWidget.insertRow(row)
+                self.tableWidget.setItem(row, 0, QTableWidgetItem(sql_server.search_data_by_title(sql_server.dbconnect(), text)[row][1]))
+                self.tableWidget.setItem(row, 1, QTableWidgetItem(sql_server.search_data_by_title(sql_server.dbconnect(), text)[row][2]))
+                self.tableWidget.setItem(row, 2, QTableWidgetItem(sql_server.search_data_by_title(sql_server.dbconnect(), text)[row][3]))
+                self.tableWidget.setItem(row, 3, QTableWidgetItem(sql_server.search_data_by_title(sql_server.dbconnect(), text)[row][5]))
+        # 콤보박스가 저자
+        # 콤보박스가 출판사
+        # 콤보박스가 연도
+        
+        
+        
+    # 테이블의 원소를 클릭했을 때 도서 현황 나오기
+    def onRightClick(self):
+        
+        x = self.tableWidget.currentRow()
+        #y = self.tableWidget.currentColumn()
+        #print('onClick index.row: %s, index.col: %s' % (x, y))
+        
+        text = self.tableWidget.item(x, 0).text()
+        for i in sql_server.search_data_by_title(sql_server.dbconnect(), text):
+            self.num_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][0])
+            self.title_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][1])
+            self.author_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][2])
+            self.publisher_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][3])
+            #self.translator_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][4])
+            self.release_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][5])
+            #self.page_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][6])
+            #self.location_line.setText(sql_server.search_data_by_title(sql_server.dbconnect(), text)[x][7])
+            
+            
 
-
-
-
+        
+        
+            
+            
+        
 
 
 

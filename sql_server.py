@@ -17,10 +17,10 @@ def dbconnect():
 # 책이름으로 데이터 가져오기
 def search_data_by_title(conn, title):
     cur = conn.cursor()
-    sql = 'select * from book_info where title = ' + title       # ; 붙?
+    sql = "select * from book_info where title like '%" + title + "%' " # ; 붙?
     cur.execute(sql)
     res = cur.fetchall()
-    print(res)                                                   # 수정필
+    return res                                                   # 수정필
     
 # id pw 로 유저정보 가져오기  ->  로그인 
 def search_data_by_id_pw(conn, id, pw):

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Lobby_Window</class>
- <widget class="QMainWindow" name="Lobby_Window">
+ <class>lobby_window</class>
+ <widget class="QMainWindow" name="lobby_window">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>324</width>
+    <width>454</width>
     <height>357</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>로비</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="book_search_btn">
+   <widget class="QPushButton" name="lobby_to_search_btn">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -86,7 +86,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>324</width>
+     <width>454</width>
      <height>21</height>
     </rect>
    </property>
@@ -96,10 +96,10 @@
  <resources/>
  <connections>
   <connection>
-   <sender>book_search_btn</sender>
+   <sender>lobby_to_search_btn</sender>
    <signal>clicked()</signal>
-   <receiver>Lobby_Window</receiver>
-   <slot>book_search_btn_click()</slot>
+   <receiver>lobby_window</receiver>
+   <slot>lobby_to_search()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>54</x>
@@ -113,6 +113,6 @@
   </connection>
  </connections>
  <slots>
-  <slot>book_search_btn_click()</slot>
+  <slot>lobby_to_search()</slot>
  </slots>
 </ui>
