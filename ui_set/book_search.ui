@@ -260,7 +260,7 @@
     <rect>
      <x>50</x>
      <y>460</y>
-     <width>501</width>
+     <width>901</width>
      <height>301</height>
     </rect>
    </property>
@@ -409,6 +409,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="maxLength">
+     <number>32767</number>
+    </property>
    </widget>
    <widget class="QLineEdit" name="num_line">
     <property name="geometry">
@@ -500,7 +503,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="map_btn">
+   <widget class="QPushButton" name="location_btn">
     <property name="geometry">
      <rect>
       <x>250</x>
@@ -526,7 +529,7 @@
      <string>번역가</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="tanslator_line">
+   <widget class="QLineEdit" name="translator_line">
     <property name="geometry">
      <rect>
       <x>80</x>
@@ -534,6 +537,29 @@
       <width>150</width>
       <height>20</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>20</y>
+      <width>281</width>
+      <height>271</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>도서 이미지 삽입</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -572,9 +598,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>location_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>book_search_Form</receiver>
+   <slot>location_search()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>357</x>
+     <y>661</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>559</x>
+     <y>656</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>book_search()</slot>
   <slot>onRightClick()</slot>
+  <slot>location_search()</slot>
  </slots>
 </ui>

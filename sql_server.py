@@ -17,18 +17,43 @@ def dbconnect():
 # 책이름으로 데이터 가져오기
 def search_data_by_title(conn, title):
     cur = conn.cursor()
-    sql = "select * from book_info where title like '%" + title + "%' " # ; 붙?
+    sql = "select * from book_info where title like '%" + title + "%' "
     cur.execute(sql)
     res = cur.fetchall()
     return res                                                   # 수정필
     
-# id pw 로 유저정보 가져오기  ->  로그인 
-def search_data_by_id_pw(conn, id, pw):
+# 바코드로 데이터 불러오기
+def search_data_by_num(conn, num):
     cur = conn.cursor()
-    sql = 'select * from user_info where id = ' + id             # 수정필               AND (Age<25  OR Nm_Kor = '홍길동')
+    sql = "select * from book_info where num = " + num + " " 
     cur.execute(sql)
     res = cur.fetchall()
-    print(res)                                                   # 수정필
+    return res     
+
+# 대출 버튼 눌렀을 때, 대출가능 -> 대출불가 
+def rental_book(conn, num):
+    cur = conn.cursor()
+    sql = "UPDATE book_info SET state = '대출불가' WHERE num = '" + num + "'"
+    cur.execute(sql)
+    conn.commit()
+
+# 대출 반납 버튼 눌렀을 때, 대출불가 -> 대출가능
+    
+    
+# 회원 가입시 중복체크 
+def id_check(conn, id):
+    cur = conn.cursor()
+    sql = "select id from user_info where id = '" + id + "' "            # 수정필               AND (Age<25  OR Nm_Kor = '홍길동')
+    cur.execute(sql)
+    res = cur.fetchall()
+    return res
+
+# 유저 회원가입
+def insert_user_data(conn, id, pw, name, address, phone, e_mail):
+    cur = conn.cursor()
+    sql = "insert into user_info (id, pw, name, address, phone, e_mail) values ('" + id + "', '" + pw + "', '" + name + "', '" + address + "', '" + phone + "', '" + e_mail + "') "
+    cur.execute(sql)
+    conn.commit()
     
 
             
@@ -39,13 +64,6 @@ def insert_book_data(conn, num, title, author, translator, release, price, image
     cur.execute(sql)
     conn.commit()
 
-# 유저 회원가입
-def insert_user_data(conn, id, pw, name, address, phone, e_mail, purchase, mileage):
-    cur = conn.cursor()
-    sql = "insert into user_info (id, pw, name, address, phone, e-mail, purchase, mileage) values ('" + id + "', '" + pw + "', '" + name + "', '" + address + "', '" + phone + "', '" + e_mail + "', '" + purchase + "', '" + mileage + "') "
-    cur.execute(sql)
-    conn.commit()
-    
 # 책 데이터 삭제
 def delete_book_data(conn, num):
     cur = conn.cursor()
