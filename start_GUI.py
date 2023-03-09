@@ -3,8 +3,9 @@ import sys
 import sql_server
 import barCode
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from PyQt5 import uic
-
+from PyQt5.QtCore import *
 
 def resource_path(relative_path):
     base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
@@ -44,6 +45,9 @@ sign_fail_dial = uic.loadUiType(sign_fail)[0]
 rental_suc = resource_path('ui_set\\rental_suc_dial.ui')
 rental_suc_dial = uic.loadUiType(rental_suc)[0]
 
+# 반납 성공 다이얼
+return_suc = resource_path('ui_set\\return_suc_dial.ui')
+return_suc_dial = uic.loadUiType(return_suc)[0]
 
 
 
@@ -52,9 +56,31 @@ rental_suc_dial = uic.loadUiType(rental_suc)[0]
 
 # 로비 창 프레임
 class WindowClass(QMainWindow, form_class):
+    
+    i = 0
+    
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        
+        # 시간마다 #
+        self.timer = QTimer(self)                   # timer 변수에 QTimer 할당
+        self.timer.start(10000)                     # 10000msec(10sec) 마다 반복
+        self.timer.timeout.connect(self.scrollbar)    # start time out시 연결할 함수
+        
+        
+    # 초 마다 신간 보여줄 #    
+    def scrollbar(self):
+        
+        WindowClass.i += 1
+        if WindowClass.i == 11:
+            WindowClass.i = 0
+        self.new_sb.setValue(WindowClass.i)
+        
+        
+        
+    
+    
         
     def lobby_to_search(self):
         self.hide()                     # 메인윈도우 숨김
@@ -72,8 +98,9 @@ class WindowClass(QMainWindow, form_class):
         self.hide()
         self.rental = rentalwindow() 
         self.rental.exec()
-        self.show()
-
+        self.show()    
+        
+    
 # 도서검색 창 프레임
 class searchwindow(QDialog,QWidget,form_searchwindow):
     def __init__(self):
@@ -173,13 +200,18 @@ class rentalwindow(QDialog,QWidget,form_rentalwindow):
             print("에러")
     
     # 도서 대출 버튼 클릭 시
-    def rental(self):
-        
+    def book_rental(self):
         text = self.num_line.text()
         sql_server.rental_book(sql_server.dbconnect(), text)
         self.rental_dial = rental_dial()
         self.show()
      
+    # 도서 반납 버튼 클릭 시
+    def book_return(self):
+        text = self.num_line.text()
+        sql_server.return_book(sql_server.dbconnect(), text) #
+        self.return_dial = return_dial()
+        self.show()
     
     
     
@@ -192,7 +224,13 @@ class locationwindow(QDialog,QWidget,form_locationwindow):
 
     def initUi(self):
         self.setupUi(self)
-    
+        
+        # 코드로 위젯 만들었음
+        self.lbl = QLabel(self)
+        self.lbl.resize(400, 400)
+        pixmap = QPixmap('ui_set\\지도.jpg')
+        self.lbl.setPixmap(QPixmap(pixmap))
+        self.show()
     
 
 
@@ -279,6 +317,18 @@ class rental_dial(QDialog,QWidget, rental_suc_dial):
     def dial_close(self):
         self.close()
         
+# 반납 성공 다이얼
+class return_dial(QDialog,QWidget, return_suc_dial):
+    def __init__(self):
+        super(return_dial, self).__init__()
+        self.initUi()
+        self.show()
+
+    def initUi(self):
+        self.setupUi(self)
+    
+    def dial_close(self):
+        self.close()
 
 
 

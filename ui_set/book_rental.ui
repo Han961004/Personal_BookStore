@@ -29,7 +29,7 @@
      <x>240</x>
      <y>40</y>
      <width>75</width>
-     <height>20</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="text">
@@ -177,6 +177,19 @@
     <string>대출</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="return_btn">
+   <property name="geometry">
+    <rect>
+     <x>250</x>
+     <y>260</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>반납</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
@@ -200,7 +213,7 @@
    <sender>rental_btn</sender>
    <signal>clicked()</signal>
    <receiver>rental_Form</receiver>
-   <slot>rental()</slot>
+   <slot>book_rental()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>141</x>
@@ -212,9 +225,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>return_btn</sender>
+   <signal>clicked()</signal>
+   <receiver>rental_Form</receiver>
+   <slot>book_return()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>305</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>403</x>
+     <y>258</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>input_barcode()</slot>
-  <slot>rental()</slot>
+  <slot>book_rental()</slot>
+  <slot>book_return()</slot>
  </slots>
 </ui>

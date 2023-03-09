@@ -38,6 +38,11 @@ def rental_book(conn, num):
     conn.commit()
 
 # 대출 반납 버튼 눌렀을 때, 대출불가 -> 대출가능
+def return_book(conn, num):
+    cur = conn.cursor()
+    sql = "UPDATE book_info SET state = '대출가능' WHERE num = '" + num + "'"
+    cur.execute(sql)
+    conn.commit()
     
     
 # 회원 가입시 중복체크 

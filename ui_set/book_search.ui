@@ -509,7 +509,7 @@
       <x>250</x>
       <y>190</y>
       <width>75</width>
-      <height>20</height>
+      <height>23</height>
      </rect>
     </property>
     <property name="text">
@@ -560,6 +560,19 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="reserve_btn">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>100</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>도서 예약</string>
     </property>
    </widget>
   </widget>
