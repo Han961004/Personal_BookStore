@@ -2,6 +2,7 @@ import os
 import sys
 import sql_server
 import barCode
+from datetime import datetime
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
@@ -57,12 +58,19 @@ return_suc_dial = uic.loadUiType(return_suc)[0]
 # 로비 창 프레임
 class WindowClass(QMainWindow, form_class):
     
-    i = 0
+    
+    releases = datetime.today().year - 1 # 2023년이지만 책이 2022 뿐이니까      # type int
+    # 올해의 신간도서 갯수
+    i = sql_server.search_data_by_releases(sql_server.dbconnect(), str(releases))[0][0]
+    i -= 1  # 스크롤바의 시작이 0인듯 그래서 3 -> 4 개되니까 하나 줄여야겠어
+    count = 0 # 스크롤바의 무빙
     
     def __init__(self):
         super().__init__()
         self.setupUi(self)
         
+        
+        self.new_sb.setMaximum(WindowClass.i)      # 스크롤바 처음 생성시의 크기
         # 시간마다 #
         self.timer = QTimer(self)                   # timer 변수에 QTimer 할당
         self.timer.start(10000)                     # 10000msec(10sec) 마다 반복
@@ -71,11 +79,10 @@ class WindowClass(QMainWindow, form_class):
         
     # 초 마다 신간 보여줄 #    
     def scrollbar(self):
-        
-        WindowClass.i += 1
-        if WindowClass.i == 11:
-            WindowClass.i = 0
-        self.new_sb.setValue(WindowClass.i)
+        WindowClass.count += 1
+        if WindowClass.count > WindowClass.i:
+            WindowClass.count = 0
+        self.new_sb.setValue(WindowClass.count)             # 10 초마다 1칸 씩 움직임
         
         
         

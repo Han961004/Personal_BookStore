@@ -30,6 +30,15 @@ def search_data_by_num(conn, num):
     res = cur.fetchall()
     return res     
 
+# 연도로 데이터 불러오기
+def search_data_by_releases(conn, releases):
+    cur = conn.cursor()
+    sql = "select count(if(releases = " + releases + ", releases, null)) from book_info" 
+    cur.execute(sql)
+    res = cur.fetchall()
+    return res     
+
+
 # 대출 버튼 눌렀을 때, 대출가능 -> 대출불가 
 def rental_book(conn, num):
     cur = conn.cursor()
